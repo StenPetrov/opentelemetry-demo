@@ -153,6 +153,13 @@ exporters:
       num_consumers: 10
       queue_size: 1000
       batch:
+  otlphttp/loki:
+    # Loki natively accepts OTLP logs at /otlp; the exporter appends /v1/logs
+    endpoint: "http://loki:3100/otlp"
+    tls:
+      insecure: true
+    sending_queue:
+      batch:
 processors:
   memory_limiter:
     check_interval: 5s
@@ -170,11 +177,24 @@ processors:
           # Upstream Issue: https://github.com/open-telemetry/opentelemetry-collector/issues/15221
           - set(attributes["otelcol_signal"], attributes["otelcol.signal"]) where attributes["otelcol.signal"] != nil and not IsMap(attributes["otelcol.signal"])
           - delete_key(attributes, "otelcol.signal") where attributes["otelcol_signal"] != nil
+      - context: log
+        statements:
+          # Normalize log messages by replacing variable parts with placeholders,
+          # for example: "User 123 logged in" -> "User {userId} logged in"
+          #- replace_match(body,attributes["user_agent_original"], "{user_agent_original}") where attributes["user_agent_original"] != nil
+          #- replace_pattern(body, "\"(Mozilla|Chrome|Gecko|KHTML|Safari)/\\d\\.\\d[^\"]*\"", "{user_agent}")
+          #- replace_pattern(body, attributes["url.full"], "{url.full}") where attributes["url.full"] != nil
+          #- replace_pattern(body, attributes["url.path"], "{url.path}") where attributes["url.path"] != nil 
+          #- replace_pattern(body, attributes["url.query"], "{url.query}") where attributes["url.query"] != nil && Len(attributes["url.query"]) > 3
+          #- replace_pattern(body, "^\\[\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z\\]", "[T]")          
   transform/sanitize_spans:
     error_mode: ignore
     trace_statements:
       - context: span
         statements:
+          # Normalize whitespace in db.query.text to keep query text on a single line
+          # - replace_pattern(attributes["db.query.text"], "(\\s|\\\\[nrt]|[\n\r\t])+", " ") where attributes["db.query.text"] != nil
+
           # Sanitize spans to prevent span metrics cardinality explosion
           # caused by non-compliant high cardinality span names:
           # 1. Define missing http.route on key HTTP operations for meaningful operation names
@@ -232,7 +252,7 @@ service:
     logs:
       receivers: [otlp]
       processors: [resourcedetection, memory_limiter, transform/sanitize_logs]
-      exporters: [opensearch, debug]
+      exporters: [opensearch, otlphttp/loki, debug]
   telemetry:
     metrics:
       readers:

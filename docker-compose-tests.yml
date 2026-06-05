@@ -13,7 +13,7 @@ services:
   # Frontend Tests
   frontendTests:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-frontend-tests
-    container_name: frontend-tests
+    container_name: frontend-tests-od
     build:
       context: ./
       dockerfile: ./src/frontend/Dockerfile.cypress
@@ -30,7 +30,7 @@ services:
   # Tracebased Tests
   traceBasedTests:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-traceBasedTests
-    container_name: traceBasedTests
+    container_name: traceBasedTests-od
     build:
       context: ./
       dockerfile: ./test/tracetesting/Dockerfile
@@ -96,7 +96,7 @@ services:
   tracetest-server:
     image: ${TRACETEST_IMAGE}
     platform: linux/amd64
-    container_name: tracetest-server
+    container_name: tracetest-server-od
     volumes:
       - type: bind
         source: ./test/tracetesting/tracetest-config.yaml
@@ -122,7 +122,7 @@ services:
 
   tracetest-postgres:
     image: ${POSTGRES_IMAGE}
-    container_name: tracetest-postgres
+    container_name: tracetest-postgres-od
     environment:
       - POSTGRES_PASSWORD
     healthcheck:

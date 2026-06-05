@@ -19,7 +19,7 @@ services:
   # Accounting service
   accounting:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-accounting
-    container_name: accounting
+    container_name: accounting-od
     build:
       context: ./
       dockerfile: ${ACCOUNTING_DOCKERFILE}
@@ -48,7 +48,7 @@ services:
   # AdService
   ad:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-ad
-    container_name: ad
+    container_name: ad-od
     build:
       context: ./
       dockerfile: ${AD_DOCKERFILE}
@@ -83,7 +83,7 @@ services:
   # Cart service
   cart:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-cart
-    container_name: cart
+    container_name: cart-od
     build:
       context: ./
       dockerfile: ${CART_DOCKERFILE}
@@ -118,7 +118,7 @@ services:
   # Checkout service
   checkout:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-checkout
-    container_name: checkout
+    container_name: checkout-od
     build:
       context: ./
       dockerfile: ${CHECKOUT_DOCKERFILE}
@@ -171,7 +171,7 @@ services:
   # Currency service
   currency:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-currency
-    container_name: currency
+    container_name: currency-od
     build:
       context: ./
       dockerfile: ${CURRENCY_DOCKERFILE}
@@ -202,7 +202,7 @@ services:
   # Email service
   email:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-email
-    container_name: email
+    container_name: email-od
     build:
       context: ./
       dockerfile: ${EMAIL_DOCKERFILE}
@@ -232,7 +232,7 @@ services:
   # Fraud Detection service
   fraud-detection:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-fraud-detection
-    container_name: fraud-detection
+    container_name: fraud-detection-od
     build:
       context: ./
       dockerfile: ${FRAUD_DOCKERFILE}
@@ -265,7 +265,7 @@ services:
   # Frontend
   frontend:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-frontend
-    container_name: frontend
+    container_name: frontend-od
     build:
       context: ./
       dockerfile: ${FRONTEND_DOCKERFILE}
@@ -327,7 +327,7 @@ services:
   # Frontend Proxy (Envoy)
   frontend-proxy:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-frontend-proxy
-    container_name: frontend-proxy
+    container_name: frontend-proxy-od
     build:
       context: ./
       dockerfile: ${FRONTEND_PROXY_DOCKERFILE}
@@ -384,7 +384,7 @@ services:
   # image-provider
   image-provider:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-image-provider
-    container_name: image-provider
+    container_name: image-provider-od
     build:
       context: ./
       dockerfile: ${IMAGE_PROVIDER_DOCKERFILE}
@@ -411,7 +411,7 @@ services:
   # Load Generator
   load-generator:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-load-generator
-    container_name: load-generator
+    container_name: load-generator-od
     build:
       context: ./
       dockerfile: ${LOAD_GENERATOR_DOCKERFILE}
@@ -450,7 +450,7 @@ services:
   # Payment service
   payment:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-payment
-    container_name: payment
+    container_name: payment-od
     build:
       context: ./
       dockerfile: ${PAYMENT_DOCKERFILE}
@@ -482,7 +482,7 @@ services:
   # Product Catalog service
   product-catalog:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-product-catalog
-    container_name: product-catalog
+    container_name: product-catalog-od
     build:
       context: ./
       dockerfile: ${PRODUCT_CATALOG_DOCKERFILE}
@@ -521,7 +521,7 @@ services:
   # Product reviews service
   product-reviews:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-product-reviews
-    container_name: product-reviews
+    container_name: product-reviews-od
     build:
       context: ./
       dockerfile: ${PRODUCT_REVIEWS_DOCKERFILE}
@@ -566,7 +566,7 @@ services:
   # Quote service
   quote:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-quote
-    container_name: quote
+    container_name: quote-od
     build:
       context: ./
       dockerfile: ${QUOTE_DOCKERFILE}
@@ -596,7 +596,7 @@ services:
   # Recommendation service
   recommendation:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-recommendation
-    container_name: recommendation
+    container_name: recommendation-od
     build:
       context: ./
       dockerfile: ${RECOMMENDATION_DOCKERFILE}
@@ -632,7 +632,7 @@ services:
   # Shipping service
   shipping:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-shipping
-    container_name: shipping
+    container_name: shipping-od
     build:
       context: ./
       dockerfile: ${SHIPPING_DOCKERFILE}
@@ -664,7 +664,7 @@ services:
   # Flagd, feature flagging service
   flagd:
     image: ${FLAGD_IMAGE}
-    container_name: flagd
+    container_name: flagd-od
     deploy:
       resources:
         limits:
@@ -692,7 +692,7 @@ services:
   # Flagd UI for configuring the feature flag service
   flagd-ui:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-flagd-ui
-    container_name: flagd-ui
+    container_name: flagd-ui-od
     build:
       context: ./
       dockerfile: ${FLAGD_UI_DOCKERFILE}
@@ -724,7 +724,7 @@ services:
   # Kafka used by Checkout, Accounting, and Fraud Detection services
   kafka:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-kafka
-    container_name: kafka
+    container_name: kafka-od
     build:
       context: ./
       dockerfile: ${KAFKA_DOCKERFILE}
@@ -758,7 +758,7 @@ services:
   # LLM used by Product Review service
   llm:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-llm
-    container_name: llm
+    container_name: llm-od
     build:
       context: ./
       dockerfile: ${LLM_DOCKERFILE}
@@ -782,7 +782,7 @@ services:
   # PostgreSQL database for the astronomy demo
   astronomy-db:
     image: ${POSTGRES_IMAGE}
-    container_name: astronomy-db
+    container_name: astronomy-db-od
     deploy:
       resources:
         limits:
@@ -800,7 +800,7 @@ services:
   # Valkey used by Cart service
   valkey-cart:
     image: ${VALKEY_IMAGE}
-    container_name: valkey-cart
+    container_name: valkey-cart-od
     user: valkey
     deploy:
       resources:
@@ -818,7 +818,7 @@ services:
   # Jaeger
   jaeger:
     image: ${JAEGERTRACING_IMAGE}
-    container_name: jaeger
+    container_name: jaeger-od
     command:
       - "--config=file:/etc/jaeger/config.yml"
     deploy:
@@ -843,7 +843,7 @@ services:
   # Grafana
   grafana:
     image: ${GRAFANA_IMAGE}
-    container_name: grafana
+    container_name: grafana-od
     deploy:
       resources:
         limits:
@@ -858,10 +858,32 @@ services:
       - "${GRAFANA_PORT}"
     logging: *logging
 
+  # Loki - log aggregation backend (used by Grafana for logs)
+  loki:
+    image: ${LOKI_IMAGE}
+    container_name: loki-od
+    deploy:
+      resources:
+        limits:
+          memory: 300M
+    restart: unless-stopped
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./src/loki/loki-config.yaml:/etc/loki/local-config.yaml
+    ports:
+      - "${LOKI_PORT}"
+    healthcheck:
+      test: wget -q --tries=1 -O- http://localhost:3100/ready || exit 1
+      start_period: 10s
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    logging: *logging
+
   # OpenTelemetry Collector
   otel-collector:
     image: ${COLLECTOR_CONTRIB_IMAGE}
-    container_name: otel-collector
+    container_name: otel-collector-od
     deploy:
       resources:
         limits:
@@ -882,8 +904,11 @@ services:
         condition: service_started
       opensearch:
         condition: service_healthy
+      loki:
+        condition: service_started
     logging: *logging
     environment:
+      - CLARIVIZE_COLLECTOR_ENDPOINT
       - FRONTEND_PROXY_ADDR
       - HOST_FILESYSTEM
       - IMAGE_PROVIDER_HOST
@@ -901,7 +926,7 @@ services:
   # Prometheus
   prometheus:
     image: ${PROMETHEUS_IMAGE}
-    container_name: prometheus
+    container_name: prometheus-od
     command:
       - --web.console.templates=/etc/prometheus/consoles
       - --web.console.libraries=/etc/prometheus/console_libraries
@@ -926,7 +951,7 @@ services:
   # Telemetry Documentation
   telemetry-docs:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-telemetry-docs
-    container_name: telemetry-docs
+    container_name: telemetry-docs-od
     build:
       context: ./
       dockerfile: ${TELEMETRY_DOCS_DOCKERFILE}
@@ -949,7 +974,7 @@ services:
   # OpenSearch
   opensearch:
     image: ${IMAGE_NAME}:${DEMO_VERSION}-opensearch
-    container_name: opensearch
+    container_name: opensearch-od
     build:
       context: ./
       dockerfile: ${OPENSEARCH_DOCKERFILE}
@@ -987,3 +1012,22 @@ services:
       timeout: 10s
       retries: 10
     logging: *logging
+
+# Clarivize
+  clarivize:
+    image: clarivize:latest
+    container_name: clarivize-od
+    labels:
+      - "service.type=instrumentation"
+    ports:
+      - "${CLARIVIZE_PORT}:${CLARIVIZE_PORT}"
+    volumes:
+      - clarivize-data:/app/data
+    environment:
+      CVZ_DBTYPE: SQLite
+      CVZ_USERNAME: ${CLARIVIZE_ACCOUNT}
+      CVZ_PASSWORD: ${CLARIVIZE_PWD}
+      CLARIVIZE_COLLECTOR_ENDPOINT: ${CLARIVIZE_COLLECTOR_ENDPOINT}
+
+volumes: 
+  clarivize-data:
