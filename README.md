@@ -47,6 +47,49 @@ your preferred deployment method:
 - [Docker](https://opentelemetry.io/docs/demo/docker_deployment/)
 - [Kubernetes](https://opentelemetry.io/docs/demo/kubernetes_deployment/)
 
+## Clarivize
+
+This fork adds **Clarivize (CVZ)**, a second, fully independent telemetry stack
+that runs side-by-side with the demo's default observability stack. It is a
+parallel copy of the OpenTelemetry Collector and its storage/visualization
+backends, used to store and explore telemetry in isolation.
+
+### How it works
+
+- The Clarivize stack is **completely separate** from the demo's default
+  telemetry pipeline. None of the demo services (cart, checkout, frontend, etc.)
+  send data to it, and its backends are not shared with the default stack.
+- The Clarivize collector (`otel-collector-cvz`) exposes standard OTLP
+  receivers (gRPC and HTTP). It **only stores telemetry that is sent directly to
+  it**. Each signal is routed to the matching Clarivize backend:
+  - **Traces** &rarr; `jaeger-cvz`
+  - **Metrics** &rarr; `prometheus-cvz` (also fed by span metrics derived from traces)
+  - **Logs** &rarr; `loki-cvz`
+- `grafana-cvz` visualizes **only** the Clarivize backends, via its own
+  provisioned Prometheus, Jaeger, and Loki data sources.
+
+![Telemetry data flow](./Clarivize/telemetry-flow.svg)
+
+All Clarivize configuration lives in the [`Clarivize/`](./Clarivize) folder, and
+all of its environment variables use the `_CVZ` suffix (e.g.
+`JAEGER_UI_PORT_CVZ`) so they never collide with the default stack.
+
+### Endpoints
+
+| Component | Default stack | Clarivize stack |
+|---|---|---|
+| Grafana | <http://localhost:8080/grafana/> | <http://localhost:3001/> |
+| OTel Collector (OTLP gRPC) | `localhost:4317` | `localhost:4327` |
+| OTel Collector (OTLP HTTP) | `localhost:4318` | `localhost:4328` |
+| Jaeger UI | <http://localhost:8080/jaeger/ui/> | <http://localhost:16687/jaeger/ui/> |
+| Prometheus | <http://localhost:9090/> | <http://localhost:9091/> |
+| Loki | `localhost:3100` | `localhost:3101` |
+| Clarivize | - | <http://localhost:9876>
+
+To send telemetry into the Clarivize stack, point any OpenTelemetry exporter at
+`http://localhost:4328` (OTLP/HTTP) or `localhost:4327` (OTLP/gRPC), then explore
+it at <http://localhost:3001/>.
+
 ## Documentation
 
 For detailed documentation, see [Demo Documentation][docs]. If you're curious

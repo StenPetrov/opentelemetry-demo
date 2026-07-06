@@ -1,0 +1,68 @@
+# Copyright The OpenTelemetry Authors
+# SPDX-License-Identifier: Apache-2.0
+
+# Clarivize (CVZ) OpenTelemetry Collector configuration.
+# This is a self-contained, parallel collector. It only processes telemetry
+# that is explicitly sent to its OTLP receiver and fans each signal out to the
+# dedicated Clarivize storage backends (jaeger-cvz, prometheus-cvz, loki-cvz).
+# It is intentionally NOT wired to any existing demo service.
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: ${env:OTEL_COLLECTOR_HOST_CVZ}:${env:OTEL_COLLECTOR_PORT_GRPC_CVZ}
+      http:
+        endpoint: ${env:OTEL_COLLECTOR_HOST_CVZ}:${env:OTEL_COLLECTOR_PORT_HTTP_CVZ}
+        cors:
+          allowed_origins:
+            - "http://*"
+            - "https://*"
+
+exporters:
+  debug:
+  otlp_grpc/jaeger:
+    endpoint: "${env:JAEGER_HOST_CVZ}:${env:JAEGER_GRPC_PORT_CVZ}"
+    tls:
+      insecure: true
+    sending_queue:
+      batch:
+  otlp_http/prometheus:
+    endpoint: "http://${env:PROMETHEUS_HOST_CVZ}:${env:PROMETHEUS_PORT_CVZ}/api/v1/otlp"
+    tls:
+      insecure: true
+    sending_queue:
+      batch:
+  otlphttp/loki:
+    # Loki natively accepts OTLP logs at /otlp; the exporter appends /v1/logs
+    endpoint: "http://${env:LOKI_HOST_CVZ}:${env:LOKI_PORT_CVZ}/otlp"
+    tls:
+      insecure: true
+    sending_queue:
+      batch:
+
+processors:
+  memory_limiter:
+    check_interval: 5s
+    limit_percentage: 80
+    spike_limit_percentage: 25
+  resourcedetection:
+    detectors: [env, system]
+
+connectors:
+  spanmetrics:
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [resourcedetection, memory_limiter]
+      exporters: [otlp_grpc/jaeger, debug, spanmetrics]
+    metrics:
+      receivers: [otlp, spanmetrics]
+      processors: [resourcedetection, memory_limiter]
+      exporters: [otlp_http/prometheus, debug]
+    logs:
+      receivers: [otlp]
+      processors: [resourcedetection, memory_limiter]
+      exporters: [otlphttp/loki, debug]

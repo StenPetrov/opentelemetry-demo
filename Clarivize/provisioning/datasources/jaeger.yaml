@@ -1,0 +1,22 @@
+# Copyright The OpenTelemetry Authors
+# SPDX-License-Identifier: Apache-2.0
+
+
+apiVersion: 1
+
+datasources:
+  - name: Jaeger
+    uid: webstore-traces-cvz
+    type: jaeger
+    url: http://jaeger-cvz:16686/jaeger/ui
+    editable: true
+    isDefault: false
+    jsonData:
+      tracesToLogsV2:
+        datasourceUid: webstore-logs-cvz
+        spanStartTimeShift: "-20m"
+        spanEndTimeShift: "20m"
+        filterByTraceID: true
+        filterBySpanID: true
+        customQuery: true
+        query: '{trace_id="$${__trace.traceId}"} | spanID="$${__span.spanId}"'

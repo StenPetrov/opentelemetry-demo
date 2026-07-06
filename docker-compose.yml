@@ -1029,5 +1029,143 @@ services:
       CVZ_PASSWORD: ${CLARIVIZE_PWD}
       CLARIVIZE_COLLECTOR_ENDPOINT: ${CLARIVIZE_COLLECTOR_ENDPOINT}
 
+  # ********************************************
+  # Clarivize (CVZ) Parallel Telemetry Stack
+  # A fully independent collector + storage + visualization stack. It does not
+  # receive any of the demo's existing telemetry. The new storage backends only
+  # store data that is sent directly to otel-collector-cvz.
+  # ********************************************
+
+  # OpenTelemetry Collector (Clarivize)
+  otel-collector-cvz:
+    image: ${COLLECTOR_CONTRIB_IMAGE}
+    container_name: otel-collector-cvz
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+    restart: unless-stopped
+    command: [ "--config=/etc/otelcol-config.yml" ]
+    user: 0:0
+    volumes:
+      - ${OTEL_COLLECTOR_CONFIG_CVZ}:/etc/otelcol-config.yml
+    ports:
+      - "${OTEL_COLLECTOR_PORT_GRPC_CVZ}:${OTEL_COLLECTOR_PORT_GRPC_CVZ}"
+      - "${OTEL_COLLECTOR_PORT_HTTP_CVZ}:${OTEL_COLLECTOR_PORT_HTTP_CVZ}"
+    depends_on:
+      jaeger-cvz:
+        condition: service_started
+      prometheus-cvz:
+        condition: service_started
+      loki-cvz:
+        condition: service_started
+    environment:
+      - OTEL_COLLECTOR_HOST_CVZ
+      - OTEL_COLLECTOR_PORT_GRPC_CVZ
+      - OTEL_COLLECTOR_PORT_HTTP_CVZ
+      - JAEGER_HOST_CVZ
+      - JAEGER_GRPC_PORT_CVZ
+      - PROMETHEUS_HOST_CVZ
+      - PROMETHEUS_PORT_CVZ
+      - LOKI_HOST_CVZ
+      - LOKI_PORT_CVZ
+      - GOMEMLIMIT=160MiB
+    logging: *logging
+
+  # Jaeger (Clarivize)
+  jaeger-cvz:
+    image: ${JAEGERTRACING_IMAGE}
+    container_name: jaeger-cvz
+    command:
+      - "--config=file:/etc/jaeger/config.yml"
+    deploy:
+      resources:
+        limits:
+          memory: 1200M
+    restart: unless-stopped
+    ports:
+      - "${JAEGER_UI_PORT_CVZ}:16686"
+    environment:
+      - JAEGER_HOST_CVZ
+      - JAEGER_GRPC_PORT_CVZ
+      - PROMETHEUS_ADDR_CVZ
+      - OTEL_COLLECTOR_HOST_CVZ
+      - OTEL_COLLECTOR_PORT_HTTP_CVZ
+      - MEMORY_MAX_TRACES=25000
+    volumes:
+      - ./Clarivize/jaeger-config_cvz.yml:/etc/jaeger/config.yml
+    logging: *logging
+
+  # Prometheus (Clarivize)
+  prometheus-cvz:
+    image: ${PROMETHEUS_IMAGE}
+    container_name: prometheus-cvz
+    command:
+      - --web.console.templates=/etc/prometheus/consoles
+      - --web.console.libraries=/etc/prometheus/console_libraries
+      - --storage.tsdb.retention.time=7d
+      - --config.file=/etc/prometheus/prometheus-config.yaml
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-lifecycle
+      - --web.route-prefix=/
+      - --web.enable-otlp-receiver
+      - --enable-feature=exemplar-storage
+      - --web.listen-address=0.0.0.0:${PROMETHEUS_PORT_CVZ}
+    volumes:
+      - ./Clarivize/prometheus-config_cvz.yaml:/etc/prometheus/prometheus-config.yaml
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+    restart: unless-stopped
+    ports:
+      - "${PROMETHEUS_PORT_CVZ}:${PROMETHEUS_PORT_CVZ}"
+    logging: *logging
+
+  # Loki (Clarivize)
+  loki-cvz:
+    image: ${LOKI_IMAGE}
+    container_name: loki-cvz
+    deploy:
+      resources:
+        limits:
+          memory: 300M
+    restart: unless-stopped
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./Clarivize/loki-config_cvz.yaml:/etc/loki/local-config.yaml
+    ports:
+      - "${LOKI_PORT_CVZ}:${LOKI_PORT_CVZ}"
+    healthcheck:
+      test: wget -q --tries=1 -O- http://localhost:${LOKI_PORT_CVZ}/ready || exit 1
+      start_period: 10s
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    logging: *logging
+
+  # Grafana (Clarivize)
+  grafana-cvz:
+    image: ${GRAFANA_IMAGE}
+    container_name: grafana-cvz
+    deploy:
+      resources:
+        limits:
+          memory: 175M
+    restart: unless-stopped
+    volumes:
+      - ./Clarivize/grafana.ini:/etc/grafana/grafana.ini
+      - ./Clarivize/provisioning/:/etc/grafana/provisioning/
+    ports:
+      - "${GRAFANA_PORT_CVZ}:${GRAFANA_PORT_CVZ}"
+    depends_on:
+      prometheus-cvz:
+        condition: service_started
+      jaeger-cvz:
+        condition: service_started
+      loki-cvz:
+        condition: service_started
+    logging: *logging
+
 volumes: 
   clarivize-data:
