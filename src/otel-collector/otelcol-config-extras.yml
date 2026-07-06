@@ -13,10 +13,15 @@ exporters:
     endpoint: ${env:CLARIVIZE_COLLECTOR_ENDPOINT}
 service:
   pipelines:
+    # NOTE: when merging multiple --config files, the Collector REPLACES list
+    # values rather than appending them. Each pipeline below must therefore
+    # repeat the base exporters (from otelcol-config.yml) in addition to the
+    # clarivize forwarder, otherwise the base backends (Prometheus, Jaeger)
+    # silently stop receiving data.
     traces:
-      exporters: [spanmetrics, otlp_http/clarivize]
+      exporters: [otlp_grpc/jaeger, debug, spanmetrics, otlp_http/clarivize]
     metrics:
-      exporters: [otlp_http/clarivize]
+      exporters: [otlp_http/prometheus, debug, otlp_http/clarivize]
     logs:
       exporters: [opensearch, otlphttp/loki, debug, otlp_http/clarivize]
       

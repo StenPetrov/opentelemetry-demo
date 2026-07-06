@@ -1095,6 +1095,7 @@ services:
     volumes:
       - ./Clarivize/jaeger-config_cvz.yml:/etc/jaeger/config.yml
     logging: *logging
+    
 
   # Prometheus (Clarivize)
   prometheus-cvz:
