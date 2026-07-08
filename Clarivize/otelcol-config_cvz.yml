@@ -48,6 +48,20 @@ processors:
     spike_limit_percentage: 25
   resourcedetection:
     detectors: [env, system]
+  # Overwrite every metric datapoint's timestamp with the collector's current
+  # time right before export to prometheus-cvz. Clarivize replays sampled /
+  # low-churn datapoints (e.g. many postgresql.* series) with their ORIGINAL
+  # (receiver-start) timestamps, which can be hours old. Prometheus rejects any
+  # such sample as "too old sample" (older than storage.tsdb.out_of_order_time_window)
+  # and returns HTTP 500 for the WHOLE OTLP request, so the collector drops the
+  # entire batch — including the fresh datapoints that were bundled with it.
+  # Forcing time=Now() guarantees samples are always inside the OOO window.
+  transform/force_current_timestamp:
+    error_mode: ignore
+    metric_statements:
+      - context: datapoint
+        statements:
+          - set(time, Now())
 
 connectors:
   spanmetrics:
@@ -60,7 +74,7 @@ service:
       exporters: [otlp_grpc/jaeger, debug, spanmetrics]
     metrics:
       receivers: [otlp, spanmetrics]
-      processors: [resourcedetection, memory_limiter]
+      processors: [resourcedetection, memory_limiter, transform/force_current_timestamp]
       exporters: [otlp_http/prometheus, debug]
     logs:
       receivers: [otlp]
