@@ -1049,8 +1049,6 @@ services:
       - clarivize-data:/app/data
     environment:
       CVZ_DBTYPE: SQLite
-      CVZ_USERNAME: ${CLARIVIZE_ACCOUNT}
-      CVZ_PASSWORD: ${CLARIVIZE_PWD}
       CLARIVIZE_COLLECTOR_ENDPOINT: ${CLARIVIZE_COLLECTOR_ENDPOINT}
 
   # ********************************************
