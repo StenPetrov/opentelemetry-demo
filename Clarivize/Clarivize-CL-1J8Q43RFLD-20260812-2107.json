@@ -1,0 +1,744 @@
+{
+  "endpointId": "CL-1J8Q43RFLD",
+  "instrumentationType": "OpenTelemetry",
+  "operationMode": "Enabled",
+  "attachedProperties": {
+    "LastEditedByUserId": "c9aa308d-edcb-4c80-b553-1d144dca486d",
+    "LastEditedTimestamp": "2026-07-22T16:40:33.9354851Z",
+    "IsConnected": "true"
+  },
+  "properties": {
+    "LastModifiedUtc": "2026-07-16 17:36:06Z",
+    "IterationNumber": "1116",
+    "IsDeployedBy": "c9aa308d-edcb-4c80-b553-1d144dca486d",
+    "IsDeployedOn": "2026-07-16T17:36:06.2800018Z",
+    "Description": "OpenTelemetry show",
+    "DeploymentDescription": ""
+  },
+  "telemetryConfig": {
+    "enableIntelligentSampling": true,
+    "samplingTimeWindowSeconds": 60,
+    "samplingMaxTimeWindowSeconds": 300,
+    "samplingBinSize": 5,
+    "hashType": "MD5",
+    "samplingBinMaxSize": 50,
+    "transactionTrackingDurationMinutes": 15,
+    "maxTrackedTransactions": 1000,
+    "fieldConfigs": [
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/browser.language",
+        "wasRecommended": true,
+        "fieldOperators": [
+          {
+            "actionType": "Exclude"
+          }
+        ],
+        "description": "Aggregation key used by default. \nRSBRF\nRMKLH",
+        "truncateLength": 32,
+        "noteValue": "defaultAggKey:/resource/attributes/browser.language",
+        "sampledValues": [
+          "en-US"
+        ]
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/browser.user_agent",
+        "wasRecommended": true,
+        "fieldOperators": [
+          {
+            "actionType": "Replace",
+            "condition": "^.*( \\S\u002B/\\S\u002B( ?\\(.\u002B\\))?)$",
+            "stringParam": "$1"
+          }
+        ],
+        "description": "Keeping only the last part of the user agent string, which typically contains the browser and version information. \nRMKLH",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/container.id",
+        "wasRecommended": true,
+        "isStreamKey": true,
+        "fieldOperators": [
+          {
+            "actionType": "Truncate",
+            "numericParam": 14
+          }
+        ],
+        "description": "Container IDs are very long (40-64 char) and are present very often. Truncating them to 14 chars keeps them unique enough for correlation. \nRLQSN\nRFDQT\nRNCQL",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/host.name",
+        "wasRecommended": true,
+        "isStreamKey": true,
+        "fieldOperators": [],
+        "description": "Aggregation key used by default. \nRSBRF",
+        "truncateLength": 32,
+        "noteValue": "defaultAggKey:/resource/attributes/host.name",
+        "sampledValues": [
+          "docker-desktop"
+        ]
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/os.build_id",
+        "isStreamKey": true,
+        "fieldOperators": [
+          {
+            "actionType": "Exclude"
+          }
+        ],
+        "description": "",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/os.description",
+        "isStreamKey": true,
+        "fieldOperators": [
+          {
+            "actionType": "Exclude"
+          }
+        ],
+        "description": "",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/os.type",
+        "wasRecommended": true,
+        "isStreamKey": true,
+        "fieldOperators": [],
+        "description": "Aggregation key used by default. \nRSBRF",
+        "truncateLength": 32,
+        "noteValue": "defaultAggKey:/resource/attributes/os.type",
+        "sampledValues": [
+          "linux"
+        ]
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/process.command_args",
+        "wasRecommended": true,
+        "fieldOperators": [
+          {
+            "actionType": "Exclude"
+          }
+        ],
+        "description": "This resource attribute can cause unexpected cardinality boom \nRRBNN\nRDMTL\nRMKLH",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/process.command_line",
+        "wasRecommended": true,
+        "fieldOperators": [
+          {
+            "actionType": "Exclude"
+          }
+        ],
+        "description": "This resource attribute can cause unexpected cardinality boom \nRRBNN\nRDMTL",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/process.executable.path",
+        "wasRecommended": true,
+        "fieldOperators": [
+          {
+            "actionType": "Exclude"
+          }
+        ],
+        "description": "This resource attribute can cause unexpected cardinality boom \nRRBNN\nRDMTL\nRMKLH",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Number",
+        "name": "/resource/attributes/process.pid",
+        "wasRecommended": true,
+        "fieldOperators": [
+          {
+            "actionType": "Exclude"
+          }
+        ],
+        "description": "Process ID can change randomly, not really a resource attribute \nRRBNN\nRDMTL\nRMKLH",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/process.runtime.description",
+        "wasRecommended": true,
+        "fieldOperators": [
+          {
+            "actionType": "Exclude"
+          }
+        ],
+        "description": "This resource attribute can cause unexpected cardinality boom \nRRBNN\nRDMTL\nRMKLH",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/process.runtime.version",
+        "wasRecommended": true,
+        "fieldOperators": [
+          {
+            "actionType": "Exclude"
+          }
+        ],
+        "description": "This resource attribute can cause unexpected cardinality boom \nRRBNN\nRDMTL\nRMKLH",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/service.criticality",
+        "wasRecommended": true,
+        "isStreamKey": true,
+        "fieldOperators": [],
+        "description": "Aggregation key used by default. \nRSBRF",
+        "truncateLength": 32,
+        "noteValue": "defaultAggKey:/resource/attributes/service.criticality",
+        "sampledValues": [
+          "critical"
+        ]
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/service.name",
+        "wasRecommended": true,
+        "isStreamKey": true,
+        "fieldOperators": [],
+        "description": "Aggregation key used by default. \nRSBRF",
+        "truncateLength": 32,
+        "noteValue": "defaultAggKey:/resource/attributes/service.name",
+        "sampledValues": [
+          "frontend-proxy"
+        ]
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/service.namespace",
+        "wasRecommended": true,
+        "isStreamKey": true,
+        "fieldOperators": [],
+        "description": "Aggregation key used by default. \nRSBRF",
+        "truncateLength": 32,
+        "noteValue": "defaultAggKey:/resource/attributes/service.namespace",
+        "sampledValues": [
+          "opentelemetry-demo"
+        ]
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/service.version",
+        "wasRecommended": true,
+        "isStreamKey": true,
+        "fieldOperators": [],
+        "description": "Aggregation key used by default. \nRSBRF",
+        "truncateLength": 32,
+        "noteValue": "defaultAggKey:/resource/attributes/service.version",
+        "sampledValues": [
+          "2.2.0"
+        ]
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/telemetry.auto.version",
+        "wasRecommended": true,
+        "fieldOperators": [
+          {
+            "actionType": "Exclude"
+          }
+        ],
+        "description": "This resource attribute can cause unexpected cardinality boom \nRRBNN\nRDMTL\nRMKLH",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/telemetry.distro.name",
+        "wasRecommended": true,
+        "fieldOperators": [
+          {
+            "actionType": "Exclude"
+          }
+        ],
+        "description": "This resource attribute can cause unexpected cardinality boom, as it can contain values like \u0022OpenTelemetry Java\u0022, \u0022OpenTelemetry Python\u0022, etc. which are not very useful for analysis but take up a lot of space. \nRRBNN\nRDMTL\nRMKLH",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/telemetry.distro.version",
+        "wasRecommended": true,
+        "fieldOperators": [
+          {
+            "actionType": "Exclude"
+          }
+        ],
+        "description": "This resource attribute can cause unexpected cardinality boom \nRRBNN\nRDMTL\nRMKLH",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/telemetry.sdk.language",
+        "wasRecommended": true,
+        "fieldOperators": [
+          {
+            "actionType": "Exclude"
+          }
+        ],
+        "description": "Aggregation key used by default. \nRSBRF\nRRBNN\nRMKLH",
+        "truncateLength": 32,
+        "noteValue": "defaultAggKey:/resource/attributes/telemetry.sdk.language",
+        "sampledValues": [
+          "cpp"
+        ]
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/telemetry.sdk.name",
+        "wasRecommended": true,
+        "fieldOperators": [
+          {
+            "actionType": "Exclude"
+          }
+        ],
+        "description": "Aggregation key used by default. \nRSBRF\nRRBNN\nRMKLH",
+        "truncateLength": 32,
+        "noteValue": "defaultAggKey:/resource/attributes/telemetry.sdk.name",
+        "sampledValues": [
+          "envoy"
+        ]
+      },
+      {
+        "dataType": "Token",
+        "name": "/resource/attributes/telemetry.sdk.version",
+        "wasRecommended": true,
+        "fieldOperators": [
+          {
+            "actionType": "Exclude"
+          }
+        ],
+        "description": "This resource attribute can cause unexpected cardinality boom \nRRBNN\nRDMTL\nRMKLH",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "String",
+        "name": "/scope/version",
+        "fieldOperators": [
+          {
+            "actionType": "Replace",
+            "condition": ".*(/.*)$",
+            "stringParam": "$1"
+          },
+          {
+            "actionType": "Truncate",
+            "numericParam": 32
+          }
+        ],
+        "description": "",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Token",
+        "name": "log/attributes/user_agent.original",
+        "wasRecommended": true,
+        "fieldOperators": [
+          {
+            "actionType": "Replace",
+            "condition": "^.*( \\S\u002B/\\S\u002B( ?\\(.\u002B\\))?)$",
+            "stringParam": "$1"
+          }
+        ],
+        "description": "Keeping only the last part of the user agent string, which typically contains the browser and version information. \nRRBNN",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "String",
+        "name": "log/body",
+        "wasRecommended": true,
+        "isSamplingAggregate": true,
+        "aggregateFunction": "RandomSample",
+        "fieldOperators": [
+          {
+            "actionType": "Replace",
+            "condition": "\\[\\d{4}-\\d{2}-\\d{2}T\\d\u002B:\\d\u002B:\\d\u002B\\.\\d\u002BZ\\]",
+            "stringParam": "T"
+          },
+          {
+            "actionType": "ReplaceWithAttributes"
+          }
+        ],
+        "description": "Aggregation value used by default. \nRJLBP",
+        "truncateLength": 32,
+        "noteValue": "defaultAggValue:log/body",
+        "sampledValues": [
+          "Exporting failed. Will retry the request after interval."
+        ]
+      },
+      {
+        "dataType": "SpanId",
+        "name": "log/spanId",
+        "wasRecommended": true,
+        "fieldOperators": [],
+        "description": "Allows linking by Span IDs for tracking. \nRSRFM",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Timestamp",
+        "name": "log/time",
+        "fieldOperators": [],
+        "description": "",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "TraceId",
+        "name": "log/traceId",
+        "wasRecommended": true,
+        "fieldOperators": [],
+        "description": "Allows linking by Trace IDs for tracking. \nRSRFM",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "String",
+        "name": "metrics/*/description",
+        "fieldOperators": [
+          {
+            "actionType": "Exclude"
+          }
+        ],
+        "description": "",
+        "fieldAction": "Exclude",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Timestamp",
+        "name": "metrics/*/gauge/data_points/end_time",
+        "fieldOperators": [],
+        "description": "",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Number",
+        "name": "metrics/*/gauge/data_points/value",
+        "wasRecommended": true,
+        "isSamplingAggregate": true,
+        "fieldOperators": [],
+        "description": "Aggregation value used by default. \nRJLBP",
+        "truncateLength": 32,
+        "noteValue": "defaultAggValue:metrics/otelcol_process_memory_rss/gauge/data_points/value",
+        "sampledValues": [
+          "465580032"
+        ]
+      },
+      {
+        "dataType": "Number",
+        "name": "metrics/*/histogram/min",
+        "wasRecommended": true,
+        "isSamplingAggregate": true,
+        "aggregateFunction": "Min",
+        "fieldOperators": [],
+        "description": "Aggregation value used by default. \nRJLBP",
+        "truncateLength": 32,
+        "noteValue": "defaultAggValue:metrics/otelcol_processor_batch_batch_send_size/histogram/min",
+        "sampledValues": [
+          "1"
+        ]
+      },
+      {
+        "dataType": "Number",
+        "name": "metrics/*/histogram/sum",
+        "wasRecommended": true,
+        "isSamplingAggregate": true,
+        "aggregateFunction": "Sum",
+        "fieldOperators": [],
+        "description": "Aggregation value used by default. \nRJLBP",
+        "truncateLength": 32,
+        "noteValue": "defaultAggValue:metrics/otelcol_processor_batch_batch_send_size/histogram/sum",
+        "sampledValues": [
+          "8771279"
+        ]
+      },
+      {
+        "dataType": "String",
+        "name": "metrics/*/histogram/values",
+        "wasRecommended": true,
+        "isSamplingAggregate": true,
+        "aggregateFunction": "RandomSample",
+        "fieldOperators": [],
+        "description": "Aggregation value used by default. \nRJLBP",
+        "truncateLength": 32,
+        "noteValue": "defaultAggValue:metrics/otelcol_processor_batch_batch_send_size/histogram/values",
+        "sampledValues": [
+          "Shrinkanator.Crux.Engine.ExplicitBuckets"
+        ]
+      },
+      {
+        "dataType": "TraceId",
+        "name": "metrics/*/sum/data_points/exemplar/traceId",
+        "wasRecommended": true,
+        "fieldOperators": [],
+        "description": "Allows linking by Trace IDs for tracking. Add this field to include Metric Exemplars in the tracked data. \nRMBQH",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Number",
+        "name": "metrics/*/sum/data_points/time",
+        "fieldOperators": [],
+        "description": "",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Number",
+        "name": "metrics/*/sum/data_points/value",
+        "wasRecommended": true,
+        "isSamplingAggregate": true,
+        "fieldOperators": [],
+        "description": "Aggregation value used by default. \nRJLBP",
+        "truncateLength": 32,
+        "noteValue": "defaultAggValue:metrics/otelcol_exporter_send_failed_spans/sum/data_points/value",
+        "sampledValues": [
+          "0"
+        ]
+      },
+      {
+        "dataType": "Token",
+        "name": "metrics/name",
+        "isStreamKey": true,
+        "fieldOperators": [
+          {
+            "actionType": "Debug",
+            "condition": "postgresql.blocks_read",
+            "stringParam": "PGS_BLRD"
+          },
+          {
+            "actionType": "Debug",
+            "condition": "app.frontend.requests",
+            "stringParam": "*APP_FEREQ"
+          }
+        ],
+        "description": "Metrics name",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Token",
+        "name": "span/attributes/db.query.text",
+        "wasRecommended": true,
+        "fieldOperators": [
+          {
+            "actionType": "Replace",
+            "condition": "\\\\\\\\|(?:\\s|\\\\[nrt])\u002B",
+            "stringParam": " "
+          }
+        ],
+        "description": "Clean up DB queries\u0027 escaped characters (see regex), replace multiple whitespace escape characters with a single space. Saves some space and makes the query more readable. \nRMKLH",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Number",
+        "name": "span/attributes/http.status_code",
+        "wasRecommended": true,
+        "aggregateFunction": "RandomSample",
+        "valueCondition": "\u003E499",
+        "fieldOperators": [
+          {
+            "actionType": "NoSampling"
+          }
+        ],
+        "description": "If the status code is \u003E= 500 (Internal server error) - prevent the item from being sampled \nRPGKP",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Token",
+        "name": "span/attributes/http.user_agent",
+        "wasRecommended": true,
+        "fieldOperators": [
+          {
+            "actionType": "Replace",
+            "condition": "^.*( \\S\u002B/\\S\u002B( ?\\(.\u002B\\))?)$",
+            "stringParam": "$1"
+          }
+        ],
+        "description": "Keeping only the last part of the user agent string, which typically contains the browser and version information. \nRMKLH",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "SessionId",
+        "name": "span/attributes/session.id",
+        "fieldOperators": [],
+        "description": "Session ID ties together multiple traces and spans",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "String",
+        "name": "span/attributes/user_agent",
+        "fieldOperators": [
+          {
+            "actionType": "Replace",
+            "condition": "^.*( \\S\u002B/\\S\u002B( ?\\(.\u002B\\))?)$",
+            "stringParam": "$1"
+          }
+        ],
+        "description": "",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Number",
+        "name": "span/droppedAttributesCount",
+        "wasRecommended": true,
+        "isSamplingAggregate": true,
+        "aggregateFunction": "Max",
+        "fieldOperators": [],
+        "description": "Aggregation value used by default. \nRJLBP",
+        "truncateLength": 32,
+        "noteValue": "defaultAggValue:span/droppedAttributesCount",
+        "sampledValues": [
+          "0"
+        ]
+      },
+      {
+        "dataType": "Number",
+        "name": "span/droppedEventsCount",
+        "wasRecommended": true,
+        "isSamplingAggregate": true,
+        "aggregateFunction": "Max",
+        "fieldOperators": [],
+        "description": "Aggregation value used by default. \nRJLBP",
+        "truncateLength": 32,
+        "noteValue": "defaultAggValue:span/droppedEventsCount",
+        "sampledValues": [
+          "0"
+        ]
+      },
+      {
+        "dataType": "Number",
+        "name": "span/droppedLinksCount",
+        "wasRecommended": true,
+        "isSamplingAggregate": true,
+        "aggregateFunction": "Max",
+        "fieldOperators": [],
+        "description": "Aggregation value used by default. \nRJLBP",
+        "truncateLength": 32,
+        "noteValue": "defaultAggValue:span/droppedLinksCount",
+        "sampledValues": [
+          "0"
+        ]
+      },
+      {
+        "dataType": "Duration",
+        "name": "span/duration",
+        "wasRecommended": true,
+        "isSamplingAggregate": true,
+        "fieldOperators": [],
+        "description": "Aggregation value used by default. \nRJLBP",
+        "truncateLength": 32,
+        "noteValue": "defaultAggValue:span/duration",
+        "sampledValues": [
+          "1993000"
+        ]
+      },
+      {
+        "dataType": "Timestamp",
+        "name": "span/endTimeUnixNano",
+        "fieldOperators": [],
+        "description": "",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "Token",
+        "name": "span/name",
+        "wasRecommended": true,
+        "isStreamKey": true,
+        "fieldOperators": [],
+        "description": "Aggregation key used by default. \nRSBRF",
+        "truncateLength": 32,
+        "noteValue": "defaultAggKey:span/name",
+        "sampledValues": [
+          "router frontend egress"
+        ]
+      },
+      {
+        "dataType": "SpanId",
+        "name": "span/parentSpanId",
+        "wasRecommended": true,
+        "fieldOperators": [],
+        "description": "Allows linking between spans for tracking. Add this field to expand the tracked data by following the parent-child relationships between spans. \nRTQBF",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "SpanId",
+        "name": "span/spanId",
+        "wasRecommended": true,
+        "fieldOperators": [],
+        "description": "Allows linking by Span IDs for tracking. \nRTQBF",
+        "truncateLength": 32,
+        "sampledValues": []
+      },
+      {
+        "dataType": "TraceId",
+        "name": "span/traceId",
+        "wasRecommended": true,
+        "fieldOperators": [],
+        "description": "Allows linking by Trace IDs for tracking. \nRTQBF",
+        "truncateLength": 32,
+        "sampledValues": []
+      }
+    ]
+  },
+  "description": "OpenTelemetry show",
+  "lastModifiedUtc": "2026-07-16T17:36:06+00:00",
+  "iterationNumber": 1116,
+  "providerConfig": {
+    "$type": "OTLP",
+    "endpointUrl": "http://otel-collector-cvz:4328",
+    "protocol": "HttpProtobuf",
+    "emitTelemetry": true,
+    "telemetryAttributes": {
+      "hostname": "%HOSTNAME%"
+    },
+    "originEndpointUrl": "http://localhost:12345",
+    "dashboardUrl": "http://localhost:3000/a/grafana-metricsdrilldown-app/drilldown?layout=grid\u0026filters-rule=\u0026filters-prefix=\u0026filters-suffix=\u0026from=now-1h\u0026to=now\u0026timezone=browser\u0026var-ds=prometheus\u0026var-metrics_filters=\u0026var-filters=\u0026var-labelsWingman=%28none%29\u0026search_txt=\u0026var-metrics-reducer-sort-by=default\u0026filters-recent=\u0026var-other_metric_filters="
+  },
+  "exporterConfigs": [
+    {
+      "$type": "AzureStorage",
+      "id": "T-AzS-3SBF",
+      "connection": "https://clvzquickpizza.blob.core.windows.net/?sv=2025-11-05\u0026ss=bf\u0026srt=co\u0026sp=rwdlac\u0026se=2029-04-23T06:02:37Z\u0026st=2026-04-22T21:47:37Z\u0026spr=https\u0026sig=7rcHAz9IRp%2BeKE9a91imbHNxpdCKqX1bnhdbtbDVUEk%3D",
+      "containerName": "telemetry",
+      "stage": "Ingested",
+      "description": ""
+    }
+  ]
+}
